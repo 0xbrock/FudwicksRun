@@ -37,7 +37,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         Vector3 m_CapsuleCenter;
         CapsuleCollider m_Capsule;
         bool m_Crouching;
-
+        private bool holdJump;
 
         void Start()
         {
@@ -54,6 +54,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void Move(Vector3 move, bool crouch, bool jump)
         {
+            if (!holdJump && jump)
+            {
+                holdJump = true;
+            }
+            else if (holdJump && !jump)
+            {
+                holdJump = false;
+            }
 
             // convert the world relative moveInput vector into a local-relative
             // turn amount and forward amount required to head in the desired
@@ -168,9 +176,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // apply extra gravity from multiplier:
             Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
             m_Rigidbody.AddForce(extraGravityForce);
+
+            if (!holdJump)
+            {
+                m_Rigidbody.AddForce(Physics.gravity * 3);
+            }
             //if (Input.GetButton("Jump"))
             //{
-            //    m_Rigidbody.velocity.y -= Physics.gravity.y * Time.deltaTime;
+            //m_Rigidbody.velocity.y -= Physics.gravity.y * Time.deltaTime;
             //}
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
         }
