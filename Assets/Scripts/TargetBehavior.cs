@@ -22,7 +22,13 @@ public class TargetBehavior : MonoBehaviour
                 return;
         }
 
-        // only do stuff if hit by a projectile
+        if (this.tag == "Finish" && newCollision.gameObject.tag == "Player")
+        {
+            GameManager.gm.BeatLevel();
+            return;
+        }
+
+
         if (newCollision.gameObject.tag == "Player")
         {
             if (explosionPrefab)

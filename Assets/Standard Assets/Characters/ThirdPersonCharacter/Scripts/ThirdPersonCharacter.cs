@@ -166,13 +166,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void HandleAirborneMovement()
         {
             // apply extra gravity from multiplier:
-            if (Input.GetButton("Jump"))
-            {
-                Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-                //extraGravityForce.y -= Physics.gravity.y * Time.deltaTime;
-                
-                m_Rigidbody.AddForce(extraGravityForce);
-            }
+            Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
+            m_Rigidbody.AddForce(extraGravityForce);
+            //if (Input.GetButton("Jump"))
+            //{
+            //    m_Rigidbody.velocity.y -= Physics.gravity.y * Time.deltaTime;
+            //}
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
         }
 

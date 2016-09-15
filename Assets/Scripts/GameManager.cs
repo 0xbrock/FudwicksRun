@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void BeatLevel()
+    public void BeatLevel()
     {
         // game is over
         gameIsOver = true;
