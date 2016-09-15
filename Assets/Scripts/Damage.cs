@@ -46,26 +46,44 @@ public class Damage : MonoBehaviour
     {
         if (damageOnCollision)
         {
-            if (this.tag == "Player" && collision.gameObject.tag == "Goblin") // if the player got hit with it's own bullets, ignore it
+            if (this.tag == "Player" && collision.gameObject.tag == "Goblin" && 
+                collision.impulse.y < 0.0f && collision.contacts[0].point.y > 0.8f)
+            {
+                // if the player hit the goblin
+                Hurt(collision);
                 return;
-
-            if (collision.gameObject.GetComponent<Health>() != null)
-            {   // if the hit object has the Health script on it, deal damage
-                collision.gameObject.GetComponent<Health>().ApplyDamage(damageAmount);
-
-                if (destroySelfOnImpact)
-                {
-                    Destroy(gameObject, delayBeforeDestroy);      // destroy the object whenever it hits something
-                }
-
-                if (explosionPrefab != null)
-                {
-                    Instantiate(explosionPrefab, transform.position, transform.rotation);
-                }
             }
+            
+            if (this.tag == "Goblin" && collision.gameObject.tag == "Player" &&
+                collision.impulse.y >= 0.0f && collision.contacts[0].point.y < 0.8f)
+            {
+                // if the goblin hit the player
+                Hurt(collision);
+                return;
+                
+            }
+
+            //Hurt(collision);
         }
     }
 
+    private void Hurt(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Health>() != null)
+        {   // if the hit object has the Health script on it, deal damage
+            collision.gameObject.GetComponent<Health>().ApplyDamage(damageAmount);
+
+            if (destroySelfOnImpact)
+            {
+                Destroy(gameObject, delayBeforeDestroy);      // destroy the object whenever it hits something
+            }
+
+            if (explosionPrefab != null)
+            {
+                Instantiate(explosionPrefab, transform.position, transform.rotation);
+            }
+        }
+    }
 
     void OnCollisionStay(Collision collision) // this is used for damage over time things
     {
