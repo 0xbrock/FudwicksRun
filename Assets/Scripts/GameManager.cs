@@ -130,10 +130,11 @@ public class GameManager : MonoBehaviour
     }
 
     // public function that can be called to update the score or time
-    public void targetHit(int scoreAmount, float timeAmount)
+    public void targetHit(int scoreAmount, int underpantsAmount, float timeAmount)
     {
         // increase the score by the scoreAmount and update the text UI
         score += scoreAmount;
+        underpants += underpantsAmount;
         mainScoreDisplay.text = score.ToString();
 
         // increase the time by the timeAmount
@@ -145,6 +146,7 @@ public class GameManager : MonoBehaviour
 
         // update the text UI
         mainTimerDisplay.text = currentTime.ToString("0.00");
+        mainUnderpantsDisplay.text = underpants.ToString();
     }
 
     // public function that can be called to restart the game
