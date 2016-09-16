@@ -40,7 +40,11 @@ public class TargetBehavior : MonoBehaviour
             // if game manager exists, make adjustments based on target properties
             if (GameManager.gm)
             {
-                GameManager.gm.targetHit(scoreAmount, underpantsAmount, timeAmount);
+                if ((this.tag != "Goblin" && newCollision.gameObject.tag == "Player") || (this.tag == "Goblin" && newCollision.gameObject.tag == "Player" &&
+                    newCollision.impulse.y < 0.0f && newCollision.contacts[0].point.y > 0.8f))
+                {
+                    GameManager.gm.targetHit(scoreAmount, underpantsAmount, timeAmount);
+                }
             }
 
             // destroy the projectile
